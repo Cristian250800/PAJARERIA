@@ -31,4 +31,58 @@ public class Cliente {
                 return new Cliente(nombre,dni, telefono,email);
 
         }
+
+        public String buscarNombre() {
+                return nombre;
+        }
+        public String buscarDNI() {
+                return dni;
+        }
+        public String buscarTelefono() {
+                return telefono;
+        }
+        public String buscarEmail() {
+                return email;
+        }
+
+        public static void bajaCliente(){
+                Scanner scanner = new Scanner(System.in);
+
+                System.out.println("Introduce el nombre del cliente que deseas eliminar: ");
+
+                String eliminarCliente = scanner.nextLine().toLowerCase();
+
+                boolean encontrado = false;
+                for (Cliente c: main.clientes){
+                        if (c.buscarNombre().toLowerCase().equals(eliminarCliente)) {
+                                encontrado = true;
+                                System.out.println("Cliente encontrado"+
+                                        "\nNombre: " + c.buscarNombre() +
+                                        "\nDNI: " + c.buscarDNI() +
+                                        "\nTeléfono: " + c.buscarTelefono() +
+                                        "\nE-mail: " + c.buscarEmail());
+
+                                System.out.println("¿Deseas eliminar este cliente? (true/false):");
+                                boolean confirmar = scanner.nextBoolean();
+                                scanner.nextLine();
+
+
+                                if (confirmar) {
+                                        main.clientes.remove(c);
+                                        System.out.println("Cliente eliminado con éxito");
+                                } else {
+                                        System.out.println("Se ha cancelado el proceso de eliminación");
+
+                                }
+                                break;
+                        }
+
+                }
+                if (!encontrado){
+                        System.out.println("No se encontró ningún cliente con ese nombre");
+                }
+
+
+
+        }
 }

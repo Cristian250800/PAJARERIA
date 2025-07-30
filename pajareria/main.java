@@ -5,12 +5,17 @@ public class main {
 
     static ArrayList <Cliente> clientes = new ArrayList<>();
 
-    public main() {
-    }
 
     public static void main(String[] args) {
 
-    Scanner scanner = new Scanner(System.in);
+        //CLIENTES DE PRUEBA//
+        clientes.add(new Cliente("Laura Martínez", "12345678A", "600123456", "laura.martinez@email.com"));
+        clientes.add(new Cliente("Carlos Rodríguez", "87654321B", "611234567", "carlos.rg@email.com"));
+        clientes.add(new Cliente("Sofía Gómez", "23456789C", "622345678", "sofia.gomez@email.com"));
+        clientes.add(new Cliente("Javier Sánchez", "34567890D", "633456789", "j.sanchez@email.com"));
+        clientes.add(new Cliente("Elena Ruiz", "45678901E", "644567890", "elena.ruiz@email.com"));
+
+        Scanner scanner = new Scanner(System.in);
     int opcion;
     do {
         System.out.println("BIENVENIDO A PICO Y PLUMA");
@@ -43,7 +48,10 @@ public class main {
                         Cliente.altaNuevoCliente();
                         System.out.println("¡Cliente dado de alta satisfactoriamente!");
                     }
-                    case 2 ->{}
+                    case 2 ->{
+                        Cliente.bajaCliente();
+
+                    }
                     case 3 ->{}
                     case 4 ->{}
                     case 5 ->{}
