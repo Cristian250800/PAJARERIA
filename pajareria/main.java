@@ -83,7 +83,7 @@ public class main {
                switch (opcionPajaro){
                    case 1 -> Pajaro.altaNuevoPajaro();
                    case 2 -> Pajaro.mostrarCatalogo();
-                   case 3 ->{}
+                   case 3 -> Pajaro.BuscarPorEspecie();
                    default -> System.out.println("Introduce una opción válida");
                }
 
@@ -92,7 +92,9 @@ public class main {
             }
             case 3 ->{}
             case 4 ->{}
-            case 5 ->{}
+            case 5 ->{
+                System.out.println("Has salido del programa.");
+            }
             default ->
                 System.out.println("Introduce una opción válida");
 

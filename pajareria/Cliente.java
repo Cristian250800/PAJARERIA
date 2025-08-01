@@ -114,7 +114,7 @@ public class Cliente {
 
                 boolean encontrado = false;
                 for (Cliente c: main.clientes){
-                        if (c.buscarNombre().toLowerCase().equals(clienteModificar)) {
+                        if (c.buscarNombre().equalsIgnoreCase(clienteModificar)) {
                                 encontrado = true;
                                 System.out.println("¡Cliente encontrado!"+
                                         "\nNombre: " + c.buscarNombre() +
@@ -194,7 +194,7 @@ public class Cliente {
                 boolean encontrado = false;
 
                 for (Cliente c : main.clientes) {
-                        if (c.buscarDNI().equals(DNIaBuscar)) {
+                        if (c.buscarDNI().equalsIgnoreCase(DNIaBuscar.toLowerCase())) {
                                 System.out.println("¡Cliente encontrado!" +
                                         "\nNombre: " + c.buscarNombre() +
                                         "\nDNI: " + c.buscarDNI() +

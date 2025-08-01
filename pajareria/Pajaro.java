@@ -49,4 +49,30 @@ public class Pajaro {
         }
     }
 
+    public static void BuscarPorEspecie() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Introduce la especie del pájaro que quieres buscar: ");
+        String EspecieBuscar = scanner.nextLine();
+
+        boolean encontrado = false;
+
+        for (Pajaro p : main.pajaros) {
+            if (p.buscarEspecie().equalsIgnoreCase(EspecieBuscar.toLowerCase())) {
+                System.out.println("¡Pájaro encontrado!" +
+                        "\nEspecie: " + p.buscarEspecie() +
+                        "\nColor: " + p.buscarColor() +
+                        "\nPrecio: " + p.buscarPrecio());
+
+                encontrado = true;
+                break;
+            }
+        }
+
+        if (!encontrado) {
+            System.out.println("Pájaro no encontrado");
+        }
+    }
+
+
 }
