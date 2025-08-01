@@ -82,7 +82,7 @@ public class main {
 
                switch (opcionPajaro){
                    case 1 -> Pajaro.altaNuevoPajaro();
-                   case 2 ->{}
+                   case 2 -> Pajaro.mostrarCatalogo();
                    case 3 ->{}
                    default -> System.out.println("Introduce una opción válida");
                }

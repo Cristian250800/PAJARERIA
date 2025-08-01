@@ -41,4 +41,12 @@ public class Pajaro {
     }
 
 
+
+    public static void mostrarCatalogo(){
+        System.out.println("-----CATÁLOGO DE PÁJAROS-----");
+        for (Pajaro p : main.pajaros){
+            System.out.println("Especie: " + p.buscarEspecie() + ", Color: " + p.buscarColor()+ ", Precio: " + p.buscarPrecio() + "€");
+        }
+    }
+
 }
