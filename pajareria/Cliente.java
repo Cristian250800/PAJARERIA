@@ -210,4 +210,23 @@ public class Cliente {
                 }
         }
 
+        public static void mostrarTodosLosClientes() {
+
+                if (main.clientes.isEmpty()) {
+                        System.out.println("No hay clientes registrados.");
+                        return;
+                }
+
+                System.out.println("Listado de todos los clientes:\n");
+
+                for (Cliente c : main.clientes) {
+                        System.out.println("Nombre: " + c.buscarNombre());
+                        System.out.println("DNI: " + c.buscarDNI());
+                        System.out.println("Teléfono: " + c.buscarTelefono());
+                        System.out.println("Email: " + c.buscarEmail());
+                        System.out.println("------------------------------");
+                }
+        }
+
+
 }
