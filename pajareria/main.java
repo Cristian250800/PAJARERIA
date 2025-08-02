@@ -5,7 +5,7 @@ public class main {
 
     static ArrayList <Cliente> clientes = new ArrayList<>();
     static ArrayList <Pajaro> pajaros = new ArrayList<>();
-
+    static ArrayList <Venta> ventas = new ArrayList<>();
 
 
     public static void main(String[] args) {

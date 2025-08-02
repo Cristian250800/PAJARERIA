@@ -85,15 +85,12 @@ public class Cliente {
         public void guardarNombre(String nombre) {
                 this.nombre = nombre;
         }
-
         public void guardarDNI(String dni) {
                 this.dni = dni;
         }
-
         public void guardarTelefono(String telefono) {
                 this.telefono = telefono;
         }
-
         public void guardarEmail(String email) {
                 this.email = email;
         }
