@@ -48,27 +48,7 @@ public class main {
 
         switch (opcion){
             case 1 -> Cliente.menuCliente();
-            case 2 ->{
-                int opcionPajaro;
-                System.out.println("---------------------------------");
-                System.out.println("   GESTIÓN DE PÁJAROS");
-                System.out.println("1. Alta de pájaros");
-                System.out.println("2. Catálogo de pájaros");
-                System.out.println("3. Búsqueda por especie");
-
-               opcionPajaro = scanner.nextByte();
-               scanner.nextLine();
-
-               switch (opcionPajaro){
-                   case 1 -> Pajaro.altaNuevoPajaro();
-                   case 2 -> Pajaro.mostrarCatalogo();
-                   case 3 -> Pajaro.BuscarPorEspecie();
-                   default -> System.out.println("Introduce una opción válida");
-               }
-
-
-
-            }
+            case 2 -> Pajaro.menuPajaro();
             case 3 ->{}
             case 4 ->{}
             case 5 ->{
