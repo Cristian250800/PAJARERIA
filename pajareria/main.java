@@ -47,28 +47,7 @@ public class main {
         scanner.nextLine();
 
         switch (opcion){
-            case 1 ->{
-                int opcionCliente;
-                System.out.println("---------------------------------");
-                System.out.println("   GESTIÓN DE CLIENTES");
-                System.out.println("1. Alta de clientes");
-                System.out.println("2. Baja de clientes");
-                System.out.println("3. Modificación de clientes");
-                System.out.println("4. Búsqueda por DNI");
-                System.out.println("5. Listado de clientes");
-                System.out.println("Escoge una opción para continuar: ");
-                opcionCliente = scanner.nextInt();
-                scanner.nextLine();
-
-                switch (opcionCliente){
-                    case 1 -> Cliente.altaNuevoCliente();
-                    case 2 -> Cliente.bajaCliente();
-                    case 3 -> Cliente.modificarCliente();
-                    case 4 -> Cliente.BuscarPorDNI();
-                    case 5 -> Cliente.mostrarTodosLosClientes();
-                    default -> System.out.println("Introduce una opción válida");
-                }
-            }
+            case 1 -> Cliente.menuCliente();
             case 2 ->{
                 int opcionPajaro;
                 System.out.println("---------------------------------");

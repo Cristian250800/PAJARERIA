@@ -15,6 +15,39 @@ public class Cliente {
                 this.email = email;
         }
 
+
+
+
+        public static void menuCliente(){
+                Scanner scanner = new Scanner(System.in);
+                int opcionCliente;
+
+                do {
+                        System.out.println("---------------------------------");
+                        System.out.println("   GESTIÓN DE CLIENTES");
+                        System.out.println("1. Alta de clientes");
+                        System.out.println("2. Baja de clientes");
+                        System.out.println("3. Modificación de clientes");
+                        System.out.println("4. Búsqueda por DNI");
+                        System.out.println("5. Listado de clientes");
+                        System.out.println("6. Volver al menú principal");
+                        System.out.println("Escoge una opción para continuar: ");
+                        opcionCliente = scanner.nextInt();
+                        scanner.nextLine();
+
+                        switch (opcionCliente) {
+                                case 1 -> altaNuevoCliente();
+                                case 2 -> bajaCliente();
+                                case 3 -> modificarCliente();
+                                case 4 -> buscarPorDNI();
+                                case 5 -> mostrarTodosLosClientes();
+                                case 6 -> System.out.println("Volviendo al menú principal.");
+                                default -> System.out.println("Introduce una opción válida");
+                        }
+                }while (opcionCliente != 6);
+        }
+
+
         public static Cliente altaNuevoCliente() {
 
                 Scanner altaCliente = new Scanner(System.in);
@@ -29,7 +62,10 @@ public class Cliente {
                 String email = altaCliente.nextLine();
                 System.out.println("¡Cliente dado de alta satisfactoriamente!");
 
-                return new Cliente(nombre,dni, telefono,email);
+                Cliente nuevo = new Cliente(nombre, dni, telefono, email);
+                main.clientes.add(nuevo);
+
+                return nuevo;
 
         }
 
@@ -72,7 +108,7 @@ public class Cliente {
 
                 boolean encontrado = false;
                 for (Cliente c: main.clientes){
-                        if (c.buscarNombre().toLowerCase().equals(eliminarCliente)) {
+                        if (c.buscarNombre().equalsIgnoreCase(eliminarCliente)) {
                                 encontrado = true;
                                 System.out.println("¡Cliente encontrado!"+
                                         "\nNombre: " + c.buscarNombre() +
@@ -185,7 +221,7 @@ public class Cliente {
         }
 
 
-        public static void BuscarPorDNI() {
+        public static void buscarPorDNI() {
                 Scanner scanner = new Scanner(System.in);
 
                 System.out.println("Introduce el DNI de la persona que quieres buscar: ");
@@ -194,7 +230,7 @@ public class Cliente {
                 boolean encontrado = false;
 
                 for (Cliente c : main.clientes) {
-                        if (c.buscarDNI().equalsIgnoreCase(DNIaBuscar.toLowerCase())) {
+                        if (c.buscarDNI().equalsIgnoreCase(DNIaBuscar)) {
                                 System.out.println("¡Cliente encontrado!" +
                                         "\nNombre: " + c.buscarNombre() +
                                         "\nDNI: " + c.buscarDNI() +
