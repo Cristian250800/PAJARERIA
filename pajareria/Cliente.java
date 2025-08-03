@@ -261,5 +261,14 @@ public class Cliente {
                 }
         }
 
+        public static Cliente buscarClientePorDNI(String dni) {
+                for (Cliente c : main.clientes) {
+                        if (c.buscarDNI().equalsIgnoreCase(dni)) {
+                                return c;
+                        }
+                }
+                return null;
+        }
+
 
 }

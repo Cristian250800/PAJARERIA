@@ -25,6 +25,7 @@ public class Venta {
     public static void menuVentas() {
         Scanner scanner = new Scanner(System.in);
         int opcionVenta;
+        Cliente clienteSeleccionado = null;
 
         do {
             System.out.println("-------------------------------");
@@ -40,17 +41,38 @@ public class Venta {
             scanner.nextLine();
 
             switch (opcionVenta) {
-                case 1 -> {}
+                case 1 -> clienteSeleccionado = seleccionarCliente();
                 case 2 -> {}
                 case 3 -> {}
                 case 4 -> {}
-                case 5 -> {
-                    System.out.println("Volviendo al menú principal.");}
-                default -> {
-                    System.out.println("Opción no válida, intenta de nuevo.");}
+                case 5 ->  System.out.println("Volviendo al menú principal.");
+                default -> System.out.println("Opción no válida, intenta de nuevo.");
             }
 
         } while (opcionVenta != 5);
     }
+
+    public static Cliente seleccionarCliente() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Introduce el DNI del cliente: ");
+        String dni = scanner.nextLine();
+
+        Cliente c = Cliente.buscarClientePorDNI(dni);
+
+        if (c != null) {
+            System.out.println("Cliente seleccionado:");
+            System.out.println("Nombre: " + c.buscarNombre()  +
+                    "\nDNI: " + c.buscarDNI() +
+                    "\nTeléfono: " + c.buscarTelefono() +
+                    "\nE-mail: " + c.buscarEmail());
+            return c;
+        } else {
+            System.out.println("No se encontró ningún cliente con ese DNI.");
+            return null;
+        }
+    }
+
+
 
 }
