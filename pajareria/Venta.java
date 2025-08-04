@@ -6,6 +6,7 @@ public class Venta {
     private Cliente cliente;
     private ArrayList<Pajaro> lineasDeVenta;
     private String fecha;
+    static ArrayList<Pajaro> pajarosVenta = new ArrayList<>();
 
     public Venta (Cliente cliente, ArrayList<Pajaro> lineasDeVenta, String fecha){
         this.cliente = cliente;
@@ -42,7 +43,19 @@ public class Venta {
 
             switch (opcionVenta) {
                 case 1 -> clienteSeleccionado = seleccionarCliente();
-                case 2 -> {}
+                case 2 -> {
+                    if (clienteSeleccionado == null) {
+                        System.out.println("Primero debes seleccionar un cliente.");
+                    } else {
+                        ArrayList<Pajaro> listaPajarosFinal = seleccionarPajaro();
+                        if (!listaPajarosFinal.isEmpty()) {
+                            pajarosVenta.addAll(listaPajarosFinal);
+                            System.out.println("Pájaros añadidos al carrito.");
+                        } else {
+                            System.out.println("No se añadieron pájaros al carrito.");
+                        }
+                    }
+                }
                 case 3 -> {}
                 case 4 -> {}
                 case 5 ->  System.out.println("Volviendo al menú principal.");
@@ -75,4 +88,60 @@ public class Venta {
 
 
 
+    public static ArrayList<Pajaro> seleccionarPajaro() {
+        Scanner scanner = new Scanner(System.in);
+        String respuesta;
+        boolean seguir;
+        ArrayList<Pajaro> pajarosSeleccionados = new ArrayList<>();
+
+        System.out.println("¿Deseas consultar el catálogo? (s/n)");
+        String respuestaCatalogo = scanner.nextLine();
+
+        if (respuestaCatalogo.equalsIgnoreCase("s")) {
+            Pajaro.mostrarCatalogo();
+        }
+
+        if (main.pajaros.isEmpty()) {
+            System.out.println("No hay pájaros disponibles en el catálogo.");
+            return pajarosSeleccionados;
+        }
+
+        do {
+            System.out.println("Escribe el nombre del pájaro que quieras añadir:");
+            String nombrePajaro = scanner.nextLine();
+
+            Pajaro pajaroEncontrado = null;
+            for (Pajaro p : main.pajaros) {
+                if (p.buscarEspecie().equalsIgnoreCase(nombrePajaro)) {
+                    pajaroEncontrado = p;
+                    break;
+                }
+            }
+
+            if (pajaroEncontrado != null) {
+                System.out.println("¿Cuántos deseas añadir?");
+                int cantidad = scanner.nextInt();
+                scanner.nextLine();
+
+                for (int i = 0; i < cantidad; i++) {
+                    pajarosSeleccionados.add(pajaroEncontrado);
+                }
+
+                System.out.println("Se han añadido " + cantidad + " pájaros al carrito.");
+            } else {
+                System.out.println("No se encontró ningún pájaro con ese nombre.");
+            }
+
+            System.out.println("¿Deseas añadir más pájaros al carrito? (s/n)");
+            respuesta = scanner.nextLine();
+            seguir = respuesta.equalsIgnoreCase("s");
+
+        } while (seguir);
+        return pajarosSeleccionados;
+    }
+
+
+
 }
+
+
