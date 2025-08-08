@@ -67,7 +67,13 @@ public class Venta {
                         confirmarVenta();
                     }
                 }
-                case 4 -> {}
+                case 4 -> {
+                    if (clienteSeleccionado == null && pajarosVenta.isEmpty()) {
+                        System.out.println("No hay ninguna venta en curso");
+                    }else {
+                        cancelarVenta();
+                    }
+                }
                 case 5 ->  System.out.println("Volviendo al menú principal.");
                 default -> System.out.println("Opción no válida, intenta de nuevo.");
             }
@@ -199,7 +205,11 @@ public class Venta {
         System.out.println("Total de la compra: " + totalCompra + " €");
     }
 
-
+    public static void cancelarVenta(){
+        pajarosVenta.clear();
+        clienteSeleccionado = null;
+        System.out.println("La venta ha sido cancelada.");
+    }
 
 }
 
