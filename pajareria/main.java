@@ -35,7 +35,7 @@ public class main {
     int opcion;
     do {
         System.out.println("-------------------------------------");
-        System.out.println("       PAJARERIA PICO Y PLUMA");
+        System.out.println("       PAJARERÍA PICO Y PLUMA");
         System.out.println("1. Gestión de clientes ");
         System.out.println("2. Gestión de pájaros ");
         System.out.println("3. Realizar venta ");
@@ -50,7 +50,7 @@ public class main {
             case 1 -> Cliente.menuCliente();
             case 2 -> Pajaro.menuPajaro();
             case 3 -> Venta.menuVentas();
-            case 4 -> {}
+            case 4 -> Venta.registroVentas();
             case 5 ->{
                 System.out.println("Has salido del programa.");
             }

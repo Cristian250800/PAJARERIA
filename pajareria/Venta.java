@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +26,7 @@ public class Venta {
     public String getFecha() {
         return fecha;
     }
+    static ArrayList<Venta> registroVentas = new ArrayList<>();
 
     public static void menuVentas() {
         Scanner scanner = new Scanner(System.in);
@@ -37,7 +40,8 @@ public class Venta {
             System.out.println("2. Añadir pájaros");
             System.out.println("3. Confirmar venta");
             System.out.println("4. Cancelar venta");
-            System.out.println("5. Volver al menú principal");
+            System.out.println("5. Mostrar el registro de ventas");
+            System.out.println("6. Volver al menú principal");
             System.out.println("Selecciona una opción:");
 
             opcionVenta = scanner.nextInt();
@@ -74,8 +78,9 @@ public class Venta {
                         cancelarVenta();
                     }
                 }
-                case 5 ->  System.out.println("Volviendo al menú principal.");
-                default -> System.out.println("Opción no válida, intenta de nuevo.");
+                case 5 ->  registroVentas();
+                case 6 -> System.out.println("Volviendo al menú principal.");
+                default -> System.out.println("Opción no válida.");
             }
 
         } while (opcionVenta != 5);
@@ -203,6 +208,14 @@ public class Venta {
         }
 
         System.out.println("Total de la compra: " + totalCompra + " €");
+
+        String fechaActual = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        Venta ventaConfirmada = new Venta(clienteSeleccionado, new ArrayList<>(pajarosVenta), fechaActual);
+        registroVentas.add(ventaConfirmada);
+
+        pajarosVenta.clear();
+        clienteSeleccionado = null;
+
     }
 
     public static void cancelarVenta(){
@@ -211,6 +224,33 @@ public class Venta {
         System.out.println("La venta ha sido cancelada.");
     }
 
+
+    public static void registroVentas(){
+        if (registroVentas.isEmpty()) {
+            System.out.println("No hay ventas registradas");
+            return;
+        }
+
+        System.out.println("-----REGISTRO DE VENTAS-----");
+
+        int contador = 1;
+        for (Venta venta : registroVentas) {
+            System.out.println("Nº: " + contador++);
+            System.out.println("Cliente: " + venta.verCliente().buscarNombre() +
+                    " (DNI: " + venta.verCliente().buscarDNI() + ")");
+            System.out.println("Fecha: " + venta.getFecha());
+
+            System.out.println("Venta realizada: ");
+            double totalVenta = 0;
+            for (Pajaro p : venta.getLineasDeVenta()) {
+                System.out.println("Especie: " + p.buscarEspecie() + " || Precio unitario: " + p.buscarPrecio() + " €");
+                totalVenta += p.buscarPrecio();
+            }
+            System.out.println("Precio total venta: " + totalVenta + " €");
+            System.out.println("------------------------------");
+
+        }
+    }
 }
 
 
