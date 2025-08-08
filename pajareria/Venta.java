@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Venta {
@@ -7,7 +9,7 @@ public class Venta {
     private ArrayList<Pajaro> lineasDeVenta;
     private String fecha;
     static ArrayList<Pajaro> pajarosVenta = new ArrayList<>();
-
+    static Cliente clienteSeleccionado = null;
     public Venta (Cliente cliente, ArrayList<Pajaro> lineasDeVenta, String fecha){
         this.cliente = cliente;
         this.lineasDeVenta = lineasDeVenta;
@@ -26,7 +28,7 @@ public class Venta {
     public static void menuVentas() {
         Scanner scanner = new Scanner(System.in);
         int opcionVenta;
-        Cliente clienteSeleccionado = null;
+
 
         do {
             System.out.println("-------------------------------");
@@ -56,7 +58,15 @@ public class Venta {
                         }
                     }
                 }
-                case 3 -> {}
+                case 3 -> {
+                    if (clienteSeleccionado == null) {
+                        System.out.println("Primero debes seleccionar un cliente.");
+                    } else if (pajarosVenta.isEmpty()) {
+                        System.out.println("No hay pájaros en el carrito.");
+                    } else {
+                        confirmarVenta();
+                    }
+                }
                 case 4 -> {}
                 case 5 ->  System.out.println("Volviendo al menú principal.");
                 default -> System.out.println("Opción no válida, intenta de nuevo.");
@@ -138,6 +148,55 @@ public class Venta {
 
         } while (seguir);
         return pajarosSeleccionados;
+    }
+
+
+    public static void confirmarVenta() {
+        if (pajarosVenta.isEmpty()) {
+            System.out.println("El carrito está vacío. No hay nada que confirmar.");
+            return;
+        }
+
+
+        class DatosVenta {
+            int cantidad;
+            double precioUnitario;
+
+            DatosVenta(int cantidad, double precioUnitario) {
+                this.cantidad = cantidad;
+                this.precioUnitario = precioUnitario;
+            }
+        }
+
+        Map<String, DatosVenta> resumen = new HashMap<>();
+        double totalCompra = 0;
+
+        for (Pajaro p : pajarosVenta) {
+            String especie = p.buscarEspecie();
+            double precio = p.buscarPrecio();
+
+            if (resumen.containsKey(especie)) {
+                resumen.get(especie).cantidad++;
+            } else {
+                resumen.put(especie, new DatosVenta(1, precio));
+            }
+        }
+
+        System.out.println("Resumen del carrito:");
+
+        for (Map.Entry<String, DatosVenta> entry : resumen.entrySet()) {
+            String especie = entry.getKey();
+            DatosVenta datos = entry.getValue();
+            double precioFinal = datos.cantidad * datos.precioUnitario;
+            totalCompra += precioFinal;
+
+            System.out.println("Especie: " + especie +
+                    " || Cantidad: " + datos.cantidad +
+                    " || Precio unitario: " + datos.precioUnitario + " €" +
+                    " || Precio total: " + precioFinal + " €");
+        }
+
+        System.out.println("Total de la compra: " + totalCompra + " €");
     }
 
 

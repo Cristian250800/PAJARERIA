@@ -50,7 +50,7 @@ public class main {
             case 1 -> Cliente.menuCliente();
             case 2 -> Pajaro.menuPajaro();
             case 3 -> Venta.menuVentas();
-            case 4 ->{}
+            case 4 -> {}
             case 5 ->{
                 System.out.println("Has salido del programa.");
             }
