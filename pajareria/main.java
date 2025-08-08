@@ -51,16 +51,9 @@ public class main {
             case 2 -> Pajaro.menuPajaro();
             case 3 -> Venta.menuVentas();
             case 4 -> Venta.registroVentas();
-            case 5 ->{
-                System.out.println("Has salido del programa.");
-            }
-            default ->
-                System.out.println("Introduce una opción válida");
-
-
-
+            case 5 ->System.out.println("Has salido del programa.");
+            default -> System.out.println("Introduce una opción válida");
         }
-
     }while (opcion !=5 );
 
     }

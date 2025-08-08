@@ -1,9 +1,6 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Venta {
 
@@ -30,7 +27,7 @@ public class Venta {
 
     public static void menuVentas() {
         Scanner scanner = new Scanner(System.in);
-        int opcionVenta;
+        int opcionVenta = 0;
 
 
         do {
@@ -44,8 +41,23 @@ public class Venta {
             System.out.println("6. Volver al menú principal");
             System.out.println("Selecciona una opción:");
 
-            opcionVenta = scanner.nextInt();
-            scanner.nextLine();
+            try {
+                opcionVenta = scanner.nextInt();
+                scanner.nextLine();
+
+                if (opcionVenta < 1 || opcionVenta >6){
+                    System.out.println("El menú de opciones es de 1 a 6");
+                    opcionVenta = 0;
+                    continue;
+                }
+
+            }catch (InputMismatchException e){
+                System.out.println("Debes introducir un número entero.");
+                opcionVenta = 0;
+                scanner.nextLine();
+                continue;
+            }
+
 
             switch (opcionVenta) {
                 case 1 -> clienteSeleccionado = seleccionarCliente();
@@ -83,27 +95,42 @@ public class Venta {
                 default -> System.out.println("Opción no válida.");
             }
 
-        } while (opcionVenta != 5);
+        } while (opcionVenta != 6);
     }
 
     public static Cliente seleccionarCliente() {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Introduce el DNI del cliente: ");
-        String dni = scanner.nextLine();
+        String dni;
 
-        Cliente c = Cliente.buscarClientePorDNI(dni);
+        while (true){
+            System.out.print("Introduce el DNI del cliente: ");
+            dni = scanner.nextLine().toUpperCase();
 
-        if (c != null) {
+            if (!dni.matches("\\d{8}[A-Z]")){
+                System.out.println("Formato inválido. (8 dígitos + letra)");
+                continue;
+            }
+
+
+            Cliente c = Cliente.buscarClientePorDNI(dni);
+
+            if (c != null) {
             System.out.println("Cliente seleccionado:");
             System.out.println("Nombre: " + c.buscarNombre()  +
                     "\nDNI: " + c.buscarDNI() +
                     "\nTeléfono: " + c.buscarTelefono() +
                     "\nE-mail: " + c.buscarEmail());
             return c;
-        } else {
-            System.out.println("No se encontró ningún cliente con ese DNI.");
-            return null;
+            } else {
+                System.out.println("No se encontró ningún cliente con ese DNI.");
+                boolean respuesta = pedirConfirmacion(scanner,"¿Quieres intentarlo otra vez?" );
+                if (!respuesta){
+                    System.out.println("Se ha cancelado el proceso de selección");
+                    return null;
+                }
+
+            }
         }
     }
 
@@ -111,14 +138,12 @@ public class Venta {
 
     public static ArrayList<Pajaro> seleccionarPajaro() {
         Scanner scanner = new Scanner(System.in);
-        String respuesta;
-        boolean seguir;
+        boolean seguir = true;
         ArrayList<Pajaro> pajarosSeleccionados = new ArrayList<>();
 
-        System.out.println("¿Deseas consultar el catálogo? (s/n)");
-        String respuestaCatalogo = scanner.nextLine();
+        boolean respuestaCatalogo = pedirConfirmacion(scanner, "Deseas consultar el catálogo?");
 
-        if (respuestaCatalogo.equalsIgnoreCase("s")) {
+        if (respuestaCatalogo) {
             Pajaro.mostrarCatalogo();
         }
 
@@ -139,23 +164,41 @@ public class Venta {
                 }
             }
 
-            if (pajaroEncontrado != null) {
-                System.out.println("¿Cuántos deseas añadir?");
-                int cantidad = scanner.nextInt();
-                scanner.nextLine();
-
-                for (int i = 0; i < cantidad; i++) {
-                    pajarosSeleccionados.add(pajaroEncontrado);
+            if (pajaroEncontrado == null) {
+                System.out.println("No se encontró ningún pájaro con ese nombre");
+                boolean siNo = pedirConfirmacion(scanner, "Quieres intentarlo otra vez?");
+                if (siNo) {
+                    continue;
+                }
+                else{
+                    System.out.println("Se ha cancelado el proceso de selección");
+                    break;
                 }
 
-                System.out.println("Se han añadido " + cantidad + " pájaros al carrito.");
-            } else {
-                System.out.println("No se encontró ningún pájaro con ese nombre.");
+            }else {
+                int cantidad = -1;
+                while (cantidad < 0) {
+                    System.out.println("¿Cuántos deseas añadir?");
+                    try {
+                        cantidad = Integer.parseInt(scanner.nextLine());
+                        if (cantidad < 0) {
+                            System.out.println("La cantidad no puede ser negativa.");
+                        } else if (cantidad == 0) {
+                            System.out.println("Al introducir 0 no se añadirá ningún pájaro.");
+                        } else {
+                            for (int i = 0; i < cantidad; i++) {
+                                pajarosSeleccionados.add(pajaroEncontrado);
+                            }
+                            System.out.println("Se han añadido " + cantidad + " pájaros al carrito.");
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Entrada inválida, introduce un número entero.");
+                        cantidad = -1;
+                    }
+                }
             }
 
-            System.out.println("¿Deseas añadir más pájaros al carrito? (s/n)");
-            respuesta = scanner.nextLine();
-            seguir = respuesta.equalsIgnoreCase("s");
+            seguir = pedirConfirmacion(scanner, "Quieres añadir más pájaros al carrito?");
 
         } while (seguir);
         return pajarosSeleccionados;
@@ -164,7 +207,7 @@ public class Venta {
 
     public static void confirmarVenta() {
         if (pajarosVenta.isEmpty()) {
-            System.out.println("El carrito está vacío. No hay nada que confirmar.");
+            System.out.println("El carrito está vacío.");
             return;
         }
 
@@ -219,9 +262,15 @@ public class Venta {
     }
 
     public static void cancelarVenta(){
-        pajarosVenta.clear();
-        clienteSeleccionado = null;
-        System.out.println("La venta ha sido cancelada.");
+        Scanner scanner = new Scanner(System.in);
+        boolean cancelar = pedirConfirmacion(scanner, "Estás seguro de que quieres cancelar la venta?");
+        if (cancelar) {
+            pajarosVenta.clear();
+            clienteSeleccionado = null;
+            System.out.println("La venta ha sido cancelada.");
+        } else {
+            System.out.println("Se ha cancelado el proceso de cancelación");
+        }
     }
 
 
@@ -250,6 +299,19 @@ public class Venta {
             System.out.println("------------------------------");
 
         }
+    }
+
+
+    public static boolean pedirConfirmacion(Scanner scanner, String mensaje) {
+        String respuesta;
+        do {
+            System.out.print(mensaje + " (s/n): ");
+            respuesta = scanner.nextLine().trim().toLowerCase();
+            if (!respuesta.equals("s") && !respuesta.equals("n")) {
+                System.out.println("Introduce 's' para sí o 'n' para no.");
+            }
+        } while (!respuesta.equals("s") && !respuesta.equals("n"));
+        return respuesta.equals("s");
     }
 }
 
