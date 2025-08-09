@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class main {
@@ -32,7 +33,7 @@ public class main {
 
 
         Scanner scanner = new Scanner(System.in);
-    int opcion;
+    int opcion = 0;
     do {
         System.out.println("-------------------------------------");
         System.out.println("       PAJARERÍA PICO Y PLUMA");
@@ -43,16 +44,23 @@ public class main {
         System.out.println("5. Salir");
         System.out.println("Introduce una opción para continuar: ");
 
-        opcion = scanner.nextInt();
-        scanner.nextLine();
+        try {
+            opcion = scanner.nextInt();
+            scanner.nextLine();
 
+            if (opcion < 1 || opcion > 5) {
+                System.out.println("Introduce una opción válida entre 1 y 5.");
+                opcion = 0;
+            }
+        }catch (InputMismatchException e){
+            System.out.println("El menú de opciones va del 1 al 5");
+            }
         switch (opcion){
             case 1 -> Cliente.menuCliente();
             case 2 -> Pajaro.menuPajaro();
             case 3 -> Venta.menuVentas();
             case 4 -> Venta.registroVentas();
             case 5 ->System.out.println("Has salido del programa.");
-            default -> System.out.println("Introduce una opción válida");
         }
     }while (opcion !=5 );
     scanner.close();
