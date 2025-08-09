@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Pajaro {
@@ -8,7 +9,7 @@ public class Pajaro {
 
 
     public static void menuPajaro(){
-        int opcionPajaro;
+        int opcionPajaro =0;
         Scanner scanner = new Scanner(System.in);
 
         do {
@@ -20,17 +21,27 @@ public class Pajaro {
             System.out.println("4. Volver al menú principal");
 
 
-            opcionPajaro = scanner.nextInt();
-            scanner.nextLine();
+            try {
+                opcionPajaro = scanner.nextInt();
+                scanner.nextLine();
+                if (opcionPajaro < 1 || opcionPajaro > 4) {
+                    System.out.println("El menú de opciones es de 1 a 4.");
+                    opcionPajaro = 0;
+                }
+            }catch (InputMismatchException e){
+                System.out.println("El menú de opciones es del 1 al 4.");
+                opcionPajaro = 0;
+                scanner.nextLine();
 
+            }
             switch (opcionPajaro) {
                 case 1 -> altaNuevoPajaro();
                 case 2 -> mostrarCatalogo();
                 case 3 -> buscarPorEspecie();
                 case 4 -> System.out.println("Volviendo al menú principal");
-                default -> System.out.println("Introduce una opción válida");
             }
         }while (opcionPajaro != 4);
+        scanner.close();
     }
 
 
@@ -39,12 +50,9 @@ public class Pajaro {
         this.color = color;
         this.precio = precio;
     }
-
-
     public String buscarEspecie (){
         return especie;
     }
-
     public String buscarColor(){
         return color;
     }
@@ -57,20 +65,50 @@ public class Pajaro {
 
         Scanner altaPajaro = new Scanner(System.in);
 
-        System.out.println("Introduce el nombre de la especie: ");
-        String especie = altaPajaro.nextLine();
-        System.out.println("Introduce su color: ");
-        String color = altaPajaro.nextLine();
-        System.out.println("Introduce el precio: ");
-        double precio = altaPajaro.nextDouble();
+        String especie;
+        do {
+            System.out.println("Introduce el nombre de la especie: ");
+            especie = altaPajaro.nextLine();
+            if (especie.isEmpty()) {
+                System.out.println("La especie no puede estar vacía.");
+            }
+        } while (especie.isEmpty());
+
+        String color;
+        do {
+            System.out.println("Introduce el color: ");
+            color = altaPajaro.nextLine();
+            if (color.isEmpty()) {
+                System.out.println("El color no puede estar vacío.");
+            }
+        } while (color.isEmpty());
+
+        double precio = 0;
+        boolean precioValido = false;
+        do {
+            System.out.println("Introduce el precio: ");
+            if (altaPajaro.hasNextDouble()) {
+                precio = altaPajaro.nextDouble();
+                if (precio <= 0) {
+                    System.out.println("El precio debe ser mayor que cero.");
+                    altaPajaro.nextLine();
+                } else {
+                    precioValido = true;
+                    altaPajaro.nextLine();
+                }
+            } else {
+                System.out.println("Por favor, introduce un número válido para el precio.");
+                altaPajaro.nextLine();
+            }
+        } while (!precioValido);
 
         Pajaro nuevo = new Pajaro(especie, color, precio);
         main.pajaros.add(nuevo);
 
         System.out.println("Pájaro registrado correctamente!");
+        altaPajaro.close();
 
         return nuevo;
-
     }
 
 
@@ -98,7 +136,7 @@ public class Pajaro {
         boolean encontrado = false;
 
         for (Pajaro p : main.pajaros) {
-            if (p.buscarEspecie().equalsIgnoreCase(EspecieBuscar.toLowerCase())) {
+            if (p.buscarEspecie().equalsIgnoreCase(EspecieBuscar)) {
                 System.out.println("¡Pájaro encontrado!" +
                         "\nEspecie: " + p.buscarEspecie() +
                         "\nColor: " + p.buscarColor() +
@@ -112,6 +150,7 @@ public class Pajaro {
         if (!encontrado) {
             System.out.println("Pájaro no encontrado");
         }
+    scanner.close();
     }
 
 

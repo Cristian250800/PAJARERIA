@@ -55,6 +55,6 @@ public class main {
             default -> System.out.println("Introduce una opción válida");
         }
     }while (opcion !=5 );
-
+    scanner.close();
     }
 }

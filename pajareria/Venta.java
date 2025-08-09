@@ -96,6 +96,7 @@ public class Venta {
             }
 
         } while (opcionVenta != 6);
+        scanner.close();
     }
 
     public static Cliente seleccionarCliente() {
@@ -131,6 +132,7 @@ public class Venta {
                 }
 
             }
+            scanner.close();
         }
     }
 
@@ -201,6 +203,7 @@ public class Venta {
             seguir = pedirConfirmacion(scanner, "Quieres añadir más pájaros al carrito?");
 
         } while (seguir);
+        scanner.close();
         return pajarosSeleccionados;
     }
 
@@ -271,6 +274,7 @@ public class Venta {
         } else {
             System.out.println("Se ha cancelado el proceso de cancelación");
         }
+        scanner.close();
     }
 
 

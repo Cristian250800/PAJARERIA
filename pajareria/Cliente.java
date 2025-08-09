@@ -163,6 +163,7 @@ public class Cliente {
                 if (!encontrado){
                         System.out.println("No se encontró ningún cliente con ese nombre");
                 }
+                scanner.close();
         }
 
         public static void modificarCliente(){
@@ -296,6 +297,7 @@ public class Cliente {
                 if (!encontrado){
                         System.out.println("No se encontró ningún cliente con ese dni");
                 }
+                scanner.close();
         }
 
 
@@ -322,6 +324,7 @@ public class Cliente {
                 if (!encontrado) {
                         System.out.println("Cliente no encontrado");
                 }
+                scanner.close();
         }
 
         public static void mostrarTodosLosClientes() {
